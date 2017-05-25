@@ -19,6 +19,7 @@ public class GraphDisplay extends JComponent{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(this);
 		frame.pack();
+		frame.setResizable(false);
 		frame.setVisible(true);
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 	}
