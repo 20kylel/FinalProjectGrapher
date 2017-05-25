@@ -6,6 +6,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+/**
+ * this works
+ */
 public class GraphDisplay extends JComponent{
 	BufferedImage image;
 	JFrame frame;
