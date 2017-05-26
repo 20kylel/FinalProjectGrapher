@@ -8,32 +8,60 @@ public class GraphDetails {
 	private double xMin;
 	private double yMax;
 	private double yMin;
-	private double originX;
-	private double originY;
 	private double yInc;
 	private double xInc;
 	private double inputInc;
 	
+	private double originX;
+	private double originY;
+	
 	public GraphDetails(GraphDisplay d){
 		display = d;
 	}
-	public static void main(String[] args) {
+	public void prepareJFrame(){
 	    try {
 	        UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 	    } catch (Exception evt) {}
 	  
 	    frame = new JFrame("Text Field Examples");
 	    frame.getContentPane().setLayout(new FlowLayout());
-	    frame.getContentPane().add(new JTextField("Text field 1"));
-	    frame.getContentPane().add(new JTextField("Text field 2", 8));
-	    JTextField t = new JTextField("Text field 3", 8);
-	    t.setHorizontalAlignment(JTextField.RIGHT);
-	    frame.getContentPane().add(t);
-	    t = new JTextField("Text field 4", 8);
-	    t.setHorizontalAlignment(JTextField.CENTER);
-	    frame.getContentPane().add(t);
-	    frame.getContentPane().add(new JTextField("Text field 5", 3));
-
+	    JTextField xMaxT = new JTextField("EnterValue", JLabel.RIGHT);
+	    JTextField xMinT = new JTextField("EnterValue", JLabel.RIGHT);
+	    JTextField yMaxT = new JTextField("EnterValue", JLabel.RIGHT);
+	    JTextField yMinT = new JTextField("EnterValue",JLabel.RIGHT );
+	    JTextField yIncT = new JTextField("EnterValue", JLabel.RIGHT);
+	    JTextField xIncT = new JTextField("EnterValue", JLabel.RIGHT);
+	    JTextField inputIncT = new JTextField("EnterValue", JLabel.RIGHT);	    
+	    xMaxT.setHorizontalAlignment(JTextField.RIGHT);
+	    xMinT.setHorizontalAlignment(JTextField.RIGHT);
+	    yMaxT.setHorizontalAlignment(JTextField.RIGHT);
+	    yMinT.setHorizontalAlignment(JTextField.RIGHT);
+	    yIncT.setHorizontalAlignment(JTextField.RIGHT);
+	    xIncT.setHorizontalAlignment(JTextField.RIGHT);
+	    inputIncT.setHorizontalAlignment(JTextField.RIGHT);
+	    
+	    JLabel xMaxL = new JLabel("X Maximum", JLabel.RIGHT);
+	    JLabel xMinL = new JLabel("X Minimum", JLabel.RIGHT);
+	    JLabel yMaxL = new JLabel("Y Maximum", JLabel.RIGHT);
+	    JLabel yMinL = new JLabel("Y Minimum",JLabel.RIGHT );
+	    JLabel yIncL = new JLabel("Y Increment", JLabel.RIGHT);
+	    JLabel xIncL = new JLabel("X Increment", JLabel.RIGHT);
+	    JLabel inputIncL = new JLabel("Input Increment", JLabel.RIGHT);	    
+	    xMaxT.setHorizontalAlignment(JLabel.RIGHT);
+	    xMinT.setHorizontalAlignment(JLabel.RIGHT);
+	    yMaxT.setHorizontalAlignment(JLabel.RIGHT);
+	    yMinT.setHorizontalAlignment(JLabel.RIGHT);
+	    yIncT.setHorizontalAlignment(JLabel.RIGHT);
+	    xIncT.setHorizontalAlignment(JLabel.RIGHT);
+	    inputIncT.setHorizontalAlignment(JLabel.RIGHT);
+	    
+	    frame.getContentPane().add(new JLabel(""));
+	    frame.getContentPane().add();
+	    frame.getContentPane().add();
+	    frame.getContentPane().add();
+	    frame.getContentPane().add();
+	    frame.getContentPane().add();
+	    frame.getContentPane().add();
 	    frame.pack();
 	    frame.setVisible(true);
 	  }
