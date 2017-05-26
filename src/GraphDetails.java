@@ -94,9 +94,14 @@ public class GraphDetails {
 	public void setInputInc(double inputInc) {
 		this.inputInc = inputInc;
 	}
-	
-	
-	
 
-	
+    public GraphDisplay getDisplay()
+    {
+        return display;
+    }
+
+    public void setDisplay(GraphDisplay display)
+    {
+        this.display = display;
+    }
 }
