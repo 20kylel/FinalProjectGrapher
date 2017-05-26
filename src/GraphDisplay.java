@@ -12,8 +12,8 @@ import javax.swing.JPanel;
  * this works
  */
 public class GraphDisplay extends JComponent{
-	public BufferedImage image;
-	public JFrame frame;
+	private BufferedImage image;
+	private JFrame frame;
 	public GraphDisplay(int x, int y, int width, int height){
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,6 +24,14 @@ public class GraphDisplay extends JComponent{
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 	}
 	
+	public BufferedImage getImage() {
+		return image;
+	}
+
+	public void setImage(BufferedImage image) {
+		this.image = image;
+	}
+
 	public static void main(String[] args){
 		GraphDisplay gd = new GraphDisplay(0,0,1000, 1000);
 	}
