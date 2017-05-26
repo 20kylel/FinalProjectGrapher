@@ -47,7 +47,7 @@ public class Function {
 		System.out.println(f.getFunction());
 	}
 
-	public int evaluate()
+	public int evaluate(double x)
 	{
 		return 0;
 	}

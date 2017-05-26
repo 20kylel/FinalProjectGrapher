@@ -6,12 +6,14 @@ public class Graph {
 		private ArrayList<Function> functions;
 		private GraphDetails details;
 		private GraphDisplay display;
+		private double scale;
 
-		public Graph(GraphDetails details)
+		public Graph(GraphDetails details, double scale)
 		{
 			functions = new ArrayList<>();
 			this.details = details;
 			display = details.getDisplay();
+			this.scale = scale;
 		}
 
 		public void addFunction(Function function)
@@ -26,11 +28,9 @@ public class Graph {
 
 		public void plotGraph() {
 			for (Function f : functions) {
-				for (int x = (int) details.getxMin(); x < details.getxMax(); x++) {
-					for (int inc = 0; inc < (int) details.getInputInc(); inc++)
-					{
-						setPoint(x, f.evaluate());
-					}
+				double originX = details.getOriginX();
+				for (double x = (details.getxMin() - originX) / scale; x < details.getxMax() / scale; x++) {
+						setPoint(x, f.evaluate(x / scale));
 				}
 			}
 		}
