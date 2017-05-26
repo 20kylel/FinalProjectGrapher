@@ -47,4 +47,8 @@ public class Function {
 		System.out.println(f.getFunction());
 	}
 
+	public int evaluate()
+	{
+		return 0;
+	}
 }
