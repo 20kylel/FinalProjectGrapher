@@ -45,7 +45,7 @@ public class Graph {
 			for (Function f : functions) {
 				double originX = details.getOriginX();
 				for (double x = (details.getxMin() - originX) / scale; x < details.getxMax() / scale; x++) {
-						setPoint(x, ((Function) f).evaluate((double) x / scale));
+						setPoint(x, ((Function) f).evaluate((int) ((int) x / scale)));
 				}
 			}
 		}
