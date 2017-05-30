@@ -195,7 +195,9 @@ public class GraphDetails implements ActionListener{
 			inputInc = Double.parseDouble(inputIncT.getText());
 			graphable = true;
 		}catch(NumberFormatException exception){
-			
+			graphable = false;
+			JFrame numberFormat = new JFrame("Error");
+			JOptionPane.showMessageDialog(numberFormat, "Please Input a Number", "NumberFormatException", JOptionPane.ERROR_MESSAGE);
 		}
 		
 	}

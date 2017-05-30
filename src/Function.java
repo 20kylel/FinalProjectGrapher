@@ -9,6 +9,10 @@ public class Function {
 	public Function(String f){
 		function = cleanFunction(f);
 	}
+	public int evaluate(double x)
+	{
+		return 0;
+	}
 
 	private String cleanFunction(String f){
 		String s = "";
@@ -47,8 +51,5 @@ public class Function {
 		System.out.println(f.getFunction());
 	}
 
-	public int evaluate(double x)
-	{
-		return 0;
-	}
+	
 }

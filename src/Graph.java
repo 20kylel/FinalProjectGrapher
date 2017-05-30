@@ -23,14 +23,15 @@ public class Graph {
 
 		public void setPoint(double x, double y)
 		{
-			display.image.setRGB((int) (x + details.getOriginX()), (int) (y + details.getOriginY()), 255);
+			display.getImage().setRGB((int) (x + details.getOriginX()), (int) (y + details.getOriginY()), 255);
 		}
 
 		public void plotGraph() {
+			Function i = new Function("ajdlfa");
 			for (Function f : functions) {
 				double originX = details.getOriginX();
 				for (double x = (details.getxMin() - originX) / scale; x < details.getxMax() / scale; x++) {
-						setPoint(x, f.evaluate(x / scale));
+						setPoint(x, ((Function) f).evaluate((double) x / scale));
 				}
 			}
 		}
