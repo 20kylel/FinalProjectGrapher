@@ -7,14 +7,10 @@ public class Function {
 			"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
 	public Function(String f){
-		function = cleanFunction(f);
-	}
-	public int evaluate(double x)
-	{
-		return 0;
+		function = validFunction(f);
 	}
 
-	private String cleanFunction(String f){
+	private String validFunction(String f){
 		String s = "";
 		for(int i=0; i<f.length(); i++){
 			if(isValidChar(f.substring(i, i+1))){
@@ -51,5 +47,15 @@ public class Function {
 		System.out.println(f.getFunction());
 	}
 
+	public double evaluate(int x){
+		return calculate(function, x);
+	}
 	
+	private double calculate(String function, int x){
+		double val = 0;
+		for(int i=0; i<function.length(); i++){
+			
+		}
+		return val;
+	}
 }
