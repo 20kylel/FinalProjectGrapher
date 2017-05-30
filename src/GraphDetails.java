@@ -8,6 +8,9 @@ import javax.swing.*;
 public class GraphDetails implements ActionListener{
 	static JFrame frame;
 	GraphDisplay display;
+	private boolean graphable;
+	
+	
 	private double xMax;
 	private double xMin;
 	private double yMax;
@@ -39,10 +42,12 @@ public class GraphDetails implements ActionListener{
 	
 	public GraphDetails(GraphDisplay d){
 		display = d;
+		graphable = false;
+		this.prepareJFrame();
 	}
+	
 	public static void main(String[] args){
 		GraphDetails i = new GraphDetails(new GraphDisplay(1,1,1,1));
-		i.prepareJFrame();
 	}
 	public void prepareJFrame(){
 	    try {
@@ -51,13 +56,13 @@ public class GraphDetails implements ActionListener{
 	  
 	    frame = new JFrame("Text Field Examples");
 	    frame.getContentPane().setLayout(new FlowLayout());
-	    JTextField xMaxT = new JTextField("EnterVal", JLabel.RIGHT);
-	    JTextField xMinT = new JTextField("EnterVal", JLabel.RIGHT);
-	    JTextField yMaxT = new JTextField("EnterVal", JLabel.RIGHT);
-	    JTextField yMinT = new JTextField("EnterVal",JLabel.RIGHT );
-	    JTextField yIncT = new JTextField("EnterVal", JLabel.RIGHT);
-	    JTextField xIncT = new JTextField("EnterVal", JLabel.RIGHT);
-	    JTextField inputIncT = new JTextField("EnterValue", JLabel.RIGHT);	    
+	    xMaxT = new JTextField("EnterVal", JLabel.RIGHT);
+	    xMinT = new JTextField("EnterVal", JLabel.RIGHT);
+	    yMaxT = new JTextField("EnterVal", JLabel.RIGHT);
+	    yMinT = new JTextField("EnterVal",JLabel.RIGHT );
+	    yIncT = new JTextField("EnterVal", JLabel.RIGHT);
+	    xIncT = new JTextField("EnterVal", JLabel.RIGHT);
+	    inputIncT = new JTextField("EnterValue", JLabel.RIGHT);	    
 	    xMaxT.setHorizontalAlignment(JTextField.RIGHT);
 	    xMinT.setHorizontalAlignment(JTextField.RIGHT);
 	    yMaxT.setHorizontalAlignment(JTextField.RIGHT);
@@ -66,13 +71,13 @@ public class GraphDetails implements ActionListener{
 	    xIncT.setHorizontalAlignment(JTextField.RIGHT);
 	    inputIncT.setHorizontalAlignment(JTextField.RIGHT);
 	    
-	    JLabel xMaxL = new JLabel("X Maximum:", JLabel.RIGHT);
-	    JLabel xMinL = new JLabel("X Minimum:", JLabel.RIGHT);
-	    JLabel yMaxL = new JLabel("Y Maximum:", JLabel.RIGHT);
-	    JLabel yMinL = new JLabel("Y Minimum:",JLabel.RIGHT );
-	    JLabel yIncL = new JLabel("Y Increment:", JLabel.RIGHT);
-	    JLabel xIncL = new JLabel("X Increment:", JLabel.RIGHT);
-	    JLabel inputIncL = new JLabel("Input Increment:", JLabel.RIGHT);	    
+	    xMaxL = new JLabel("X Maximum:", JLabel.RIGHT);
+	    xMinL = new JLabel("X Minimum:", JLabel.RIGHT);
+	    yMaxL = new JLabel("Y Maximum:", JLabel.RIGHT);
+	    yMinL = new JLabel("Y Minimum:",JLabel.RIGHT );
+	    yIncL = new JLabel("Y Increment:", JLabel.RIGHT);
+	    xIncL = new JLabel("X Increment:", JLabel.RIGHT);
+	    inputIncL = new JLabel("Input Increment:", JLabel.RIGHT);	    
 	    
 	    frame.getContentPane().add(xMaxL);
 	    frame.getContentPane().add(xMaxT);
@@ -96,7 +101,9 @@ public class GraphDetails implements ActionListener{
 	    frame.setVisible(true);
 	  }
 	
-	
+	public boolean graphable(){
+		return graphable;
+	}
 	
 	public double getxMax() {
 		return xMax;
@@ -157,7 +164,7 @@ public class GraphDetails implements ActionListener{
     {
         return display;
     }
-
+   
     public void setDisplay(GraphDisplay display)
     {
         this.display = display;
@@ -166,17 +173,30 @@ public class GraphDetails implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		
-		if(Double.parseDouble(xMaxT.getText())-Double.parseDouble(xMinT.getText()) > screenSize.getHeight()){
-			
-		}if(Double.parseDouble(yMaxT.getText())-Double.parseDouble(yMinT.getText()) > screenSize.getWidth()){
-			
-		}if(Double.parseDouble(yIncT.getText()) > Double.parseDouble(yMaxT.getText())-Double.parseDouble(yMinT.getText())){
-			
-		}if(Double.parseDouble(xIncT.getText()) > Double.parseDouble(xMaxT.getText())-Double.parseDouble(xMinT.getText())){
-			
-		}if(Double.parseDouble(inputIncT.getText()) > Double.parseDouble(xMaxT.getText())-Double.parseDouble(xMinT.getText())){
+		graphable = false;
+		try{
+			if(Double.parseDouble(xMaxT.getText())-Double.parseDouble(xMinT.getText()) > screenSize.getHeight()){
+				
+			}else if(Double.parseDouble(yMaxT.getText())-Double.parseDouble(yMinT.getText()) > screenSize.getWidth()){
+				
+			}else if(Double.parseDouble(yIncT.getText()) > Double.parseDouble(yMaxT.getText())-Double.parseDouble(yMinT.getText())){
+				
+			}else if(Double.parseDouble(xIncT.getText()) > Double.parseDouble(xMaxT.getText())-Double.parseDouble(xMinT.getText())){
+					
+			}else if(Double.parseDouble(inputIncT.getText()) > Double.parseDouble(xMaxT.getText())-Double.parseDouble(xMinT.getText())){
+				
+			}
+			xMax = Double.parseDouble(xMaxT.getText());
+			xMin = Double.parseDouble(xMinT.getText());
+			yMax = Double.parseDouble(yMaxT.getText());
+			yMin = Double.parseDouble(yMinT.getText());
+			xInc = Double.parseDouble(xIncT.getText());
+			yInc = Double.parseDouble(yIncT.getText());
+			inputInc = Double.parseDouble(inputIncT.getText());
+			graphable = true;
+		}catch(NumberFormatException exception){
 			
 		}
+		
 	}
 }
