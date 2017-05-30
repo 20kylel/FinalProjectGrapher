@@ -21,9 +21,23 @@ public class Graph {
 			functions.add(function);
 		}
 
+		public ArrayList<Function> getFunctions()
+		{
+			return functions;
+		}
+
+		public String getFunctionsString()
+		{
+			String f = "";
+			for (Function function : functions)
+			{
+				f += function.getFunction() + ", ";
+			}
+			return f;
+		}
 		public void setPoint(double x, double y)
 		{
-			display.image.setRGB((int) (x + details.getOriginX()), (int) (y + details.getOriginY()), 255);
+			display.getImage().setRGB((int) (x + details.getOriginX()), (int) (y + details.getOriginY()), 255);
 		}
 
 		public void plotGraph() {
