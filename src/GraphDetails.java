@@ -18,6 +18,7 @@ public class GraphDetails implements ActionListener{
 	private double yInc;
 	private double xInc;
 	private double inputInc;
+	private double dotSize;
 	
 	
 	private JLabel xMaxL;
@@ -27,6 +28,7 @@ public class GraphDetails implements ActionListener{
     private JLabel yIncL;
     private JLabel xIncL ;
     private JLabel inputIncL;
+    private JLabel dotSizeL;
     
     private JTextField xMaxT;
 	private JTextField xMinT;
@@ -35,6 +37,7 @@ public class GraphDetails implements ActionListener{
     private JTextField yIncT;
     private JTextField xIncT ;
     private JTextField inputIncT;
+    private JTextField dotSizeT;
     
 	
 	private double originX;
@@ -46,6 +49,14 @@ public class GraphDetails implements ActionListener{
 		this.prepareJFrame();
 	}
 	
+	public double getDotSize() {
+		return dotSize;
+	}
+
+	public void setDotSize(double dotSize) {
+		this.dotSize = dotSize;
+	}
+
 	public static void main(String[] args){
 		GraphDetails i = new GraphDetails(new GraphDisplay(1,1,1,1));
 	}
@@ -63,6 +74,7 @@ public class GraphDetails implements ActionListener{
 	    yIncT = new JTextField("EnterVal", JLabel.RIGHT);
 	    xIncT = new JTextField("EnterVal", JLabel.RIGHT);
 	    inputIncT = new JTextField("EnterValue", JLabel.RIGHT);	    
+	    dotSizeT = new JTextField("EnterValue", JLabel.RIGHT);
 	    xMaxT.setHorizontalAlignment(JTextField.RIGHT);
 	    xMinT.setHorizontalAlignment(JTextField.RIGHT);
 	    yMaxT.setHorizontalAlignment(JTextField.RIGHT);
@@ -70,6 +82,7 @@ public class GraphDetails implements ActionListener{
 	    yIncT.setHorizontalAlignment(JTextField.RIGHT);
 	    xIncT.setHorizontalAlignment(JTextField.RIGHT);
 	    inputIncT.setHorizontalAlignment(JTextField.RIGHT);
+	    dotSizeT = new JTextField("EnterValue", JLabel.RIGHT);
 	    
 	    xMaxL = new JLabel("X Maximum:", JLabel.RIGHT);
 	    xMinL = new JLabel("X Minimum:", JLabel.RIGHT);
@@ -77,7 +90,8 @@ public class GraphDetails implements ActionListener{
 	    yMinL = new JLabel("Y Minimum:",JLabel.RIGHT );
 	    yIncL = new JLabel("Y Increment:", JLabel.RIGHT);
 	    xIncL = new JLabel("X Increment:", JLabel.RIGHT);
-	    inputIncL = new JLabel("Input Increment:", JLabel.RIGHT);	    
+	    inputIncL = new JLabel("Input Increment:", JLabel.RIGHT);	
+	    dotSizeL = new JLabel("Dot Size", JLabel.RIGHT);
 	    
 	    frame.getContentPane().add(xMaxL);
 	    frame.getContentPane().add(xMaxT);
@@ -93,6 +107,8 @@ public class GraphDetails implements ActionListener{
 	    frame.getContentPane().add(xIncT);
 	    frame.getContentPane().add(inputIncL);
 	    frame.getContentPane().add(inputIncT);
+	    frame.getContentPane().add(dotSizeL);
+	    frame.getContentPane().add(dotSizeT);
 	    
 	    JButton applyButton = new JButton("Apply");
 	    applyButton.addActionListener(this);
@@ -192,12 +208,13 @@ public class GraphDetails implements ActionListener{
 			yMin = Double.parseDouble(yMinT.getText());
 			xInc = Double.parseDouble(xIncT.getText());
 			yInc = Double.parseDouble(yIncT.getText());
+			dotSize = Integer.parseInt(yIncT.getText());
 			inputInc = Double.parseDouble(inputIncT.getText());
 			graphable = true;
 		}catch(NumberFormatException exception){
 			graphable = false;
 			JFrame numberFormat = new JFrame("Error");
-			JOptionPane.showMessageDialog(numberFormat, "Please Input a Number", "NumberFormatException", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(numberFormat, "Please Input Numbers", "NumberFormatException", JOptionPane.ERROR_MESSAGE);
 		}
 		
 	}
