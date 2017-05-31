@@ -41,51 +41,126 @@ public class Function {
 	}
 
 	public double evaluate(int x){
-		return 0;
+		Stack stack = new Stack();
+		Double answer = 0.0;
+		for(int i = 0; i < function.length(); i++){
+			if(function.charAt(i) == 'x' || function.charAt(i) == 'X'){
+				stack.push(Integer.toString(x));
+			}else if(!isOperator(function.charAt(i))){
+				stack.push(function.substring(i, i+1));
+			}else if(function.charAt(i) == '*'){
+				stack.push(Double.toString(Double.parseDouble((String) stack.pop())*Double.parseDouble((String) stack.pop())));
+			}else if(function.charAt(i) == '%'){
+				double temp = Double.parseDouble((String) stack.pop());
+				stack.push(Double.toString(Double.parseDouble((String) stack.pop())%temp));
+			}else if(function.charAt(i) == '/'){
+				stack.push(Double.toString(1/Double.parseDouble((String) stack.pop())*Double.parseDouble((String) stack.pop())));
+			}else if(function.charAt(i) == '+'){
+				stack.push(Double.toString(Double.parseDouble((String) stack.pop())+Double.parseDouble((String) stack.pop())));
+			}else if(function.charAt(i) == '-'){
+				stack.push(Double.toString(-Double.parseDouble((String) stack.pop())+Double.parseDouble((String) stack.pop())));
+			}else if(function.charAt(i) == '^'){
+				double temp = Double.parseDouble((String) stack.pop());
+				stack.push(Double.toString(Math.pow(Double.parseDouble((String)stack.pop()),temp)));
+			}
+		}
+		return Double.parseDouble((String) stack.pop());
 	}
 	
 	public String getFunction(){ return function; }
 
-	public static String toPostfix(String str){
-		Stack stack = new Stack();
-		String post = "";
-		char[] charr = new char[str.length()];
-		str.getChars(0, str.length(), charr, 0);
-		for(int i = 0; i < str.length();i++){
-			if(charr[i] >= 48 && charr[i] <= 57){
-				post += charr[i];
-			}else if(getPrecedence(str.substring(i, i+1)) != -1){
-				while(!stack.isEmpty() && getPrecedence((String) stack.peek()) <= getPrecedence(str.substring(i, i+1))){
-					post += stack.pop();
-				}
-				stack.push(str.substring(i,i+1));
-				
-			}else if(str.substring(i,i+1) == "("){
-				stack.push(str.substring(i,i+1));
-			}else if(str.substring(i, i+1) == ")"){
-				while(!stack.isEmpty() && stack.peek() != "(" ){
-					post += stack.pop();
-				}stack.pop();
-			}
-		}while(!stack.isEmpty()){
-			post+=stack.pop();
-		}return post;
+	private static boolean isOperator(char c)
+	{
+	    return c == '+' || c == '-' || c == '*' || c == '/' || c == '^'
+	            || c == '(' || c == ')' || c == '%';
 	}
-	public static int getPrecedence(String str){
-		for(int i = 0; i < 3; i++){
-			for(int j = 0; j < 3; j++){
-				if(str == precedence[i][j]){
-					return j;
-				}
-			}
-		}
-		return -1;
+
+	private static boolean isLowerPrecedence(char op1, char op2)
+	{
+	    switch (op1)
+	    {
+	        case '+':
+	        case '-':
+	            return !(op2 == '+' || op2 == '-');
+
+	        case '*':
+	        case '/':
+	            return op2 == '^' || op2 == '(';
+
+	        case '^':
+	            return op2 == '(';
+
+	        case '(':
+	            return true;
+
+	        default:
+	            return false;
+	    }
+	}
+
+	public static String toPostfix(String infix)
+	{
+	    Stack<Character> stack = new Stack<Character>();
+	    StringBuffer postfix = new StringBuffer(infix.length());
+	    char c;
+
+	    for (int i = 0; i < infix.length(); i++)
+	    {
+	        c = infix.charAt(i);
+
+	        if (!isOperator(c))
+	        {
+	            postfix.append(c);
+	        }
+
+	        else
+	        {
+	            if (c == ')')
+	            {
+
+	                while (!stack.isEmpty() && stack.peek() != '(')
+	                {
+	                    postfix.append(stack.pop());
+	                }
+	                if (!stack.isEmpty())
+	                {
+	                    stack.pop();
+	                }
+	            }
+
+	            else
+	            {
+	                if (!stack.isEmpty() && !isLowerPrecedence(c, stack.peek()))
+	                {
+	                    stack.push(c);
+	                }
+	                else
+	                {
+	                    while (!stack.isEmpty() && isLowerPrecedence(c, stack.peek()))
+	                    {
+	                        Character pop = stack.pop();
+	                        if (c != '(')
+	                        {
+	                            postfix.append(pop);
+	                        } else {
+	                          c = pop;
+	                        }
+	                    }
+	                    stack.push(c);
+	                }
+
+	            }
+	        }
+	    }
+	    while (!stack.isEmpty()) {
+	      postfix.append(stack.pop());
+	    }
+	    return postfix.toString();
 	}
 	
 	public static void main(String[] args){
-		Function f = new Function("y=x");
-		System.out.println(getPrecedence("+"));
-		System.out.println(toPostfix("1+1"));
+		Function f = new Function("2*X+1");
+		System.out.println(f.evaluate(5));
 	}
 	
 	
