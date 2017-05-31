@@ -27,7 +27,6 @@ public class Function {
 		} else {
 			System.out.println("Invalid function: " + f);
 		}
-		
 	}
 
 	private boolean validFunction(String f){
@@ -98,69 +97,79 @@ public class Function {
 	    }
 	}
 
-	public static String toPostfix(String infix)
-	{
-	    Stack<Character> stack = new Stack<Character>();
-	    StringBuffer postfix = new StringBuffer(infix.length());
-	    char c;
+	public static String toPostfix(String infixString) {
+        String postfixString = " ";
+        Stack stack = new Stack();
 
-	    for (int i = 0; i < infix.length(); i++)
-	    {
-	        c = infix.charAt(i);
-
-	        if (!isOperator(c))
-	        {
-	            postfix.append(c);
-	        }
-
-	        else
-	        {
-	            if (c == ')')
-	            {
-
-	                while (!stack.isEmpty() && stack.peek() != '(')
-	                {
-	                    postfix.append(stack.pop());
-	                }
-	                if (!stack.isEmpty())
-	                {
-	                    stack.pop();
-	                }
-	            }
-
-	            else
-	            {
-	                if (!stack.isEmpty() && !isLowerPrecedence(c, stack.peek()))
-	                {
-	                    stack.push(c);
-	                }
-	                else
-	                {
-	                    while (!stack.isEmpty() && isLowerPrecedence(c, stack.peek()))
-	                    {
-	                        Character pop = stack.pop();
-	                        if (c != '(')
-	                        {
-	                            postfix.append(pop);
-	                        } else {
-	                          c = pop;
-	                        }
-	                    }
-	                    stack.push(c);
-	                }
-
-	            }
-	        }
-	    }
-	    while (!stack.isEmpty()) {
-	      postfix.append(stack.pop());
-	    }
-	    return postfix.toString();
-	}
+        for (int index = 0; index < infixString.length(); ++index) {
+            char chValue = infixString.charAt(index);
+            if (chValue == '(') {
+                stack.push('(');
+            } else if (chValue == ')') {
+                Character oper = (Character) stack.peek();
+                while (!(oper.equals('(')) && !(stack.isEmpty())) {
+                    postfixString += oper.charValue();
+                    stack.pop();
+                    oper = (Character) stack.peek();
+                }
+                stack.pop();
+            } else if (chValue == '+' || chValue == '-') {
+                //Stack is empty
+                if (stack.isEmpty()) {
+                    stack.push(chValue);
+                    //current Stack is not empty
+                } else {
+                    Character oper = (Character) stack.peek();
+                    while (!(stack.isEmpty() || oper.equals(new Character('(')) || oper.equals(new Character(')')))) {
+                        stack.pop();
+                        postfixString += oper.charValue();
+                    }
+                    stack.push(chValue);
+                }
+            } else if (chValue == '*' || chValue == '/' || chValue=='%') {
+                if (stack.isEmpty()) {
+                    stack.push(chValue);
+                } else {
+                    Character oper = (Character) stack.peek();
+                    while (!oper.equals(new Character('+')) && !oper.equals(new Character('-')) && !stack.isEmpty()) {
+                        stack.pop();
+                        postfixString += oper.charValue();
+                    }
+                    stack.push(chValue);
+                }
+            } else if(chValue == '^'){
+            	if (stack.isEmpty()) {
+                    stack.push(chValue);
+                } else {
+                    Character oper = (Character) stack.peek();
+                    while (!oper.equals(new Character('+')) && !oper.equals(new Character('-')) 
+                    		&& !oper.equals(new Character('*')) &&
+                    		!oper.equals(new Character('/')) &&
+                    		!oper.equals(new Character('%')) &&
+                    		!stack.isEmpty()) {
+                        stack.pop();
+                        postfixString += oper.charValue();
+                    }
+                    stack.push(chValue);
+                }
+            } else {
+            
+                postfixString += chValue;
+            }
+        }
+        while (!stack.isEmpty()) {
+            Character oper = (Character) stack.peek();
+            if (!oper.equals(new Character('('))) {
+                stack.pop();
+                postfixString += oper.charValue();
+            }
+        }
+        return postfixString;
+    }
 	
 	public static void main(String[] args){
-		Function f = new Function("2*X+1");
-		System.out.println(f.evaluate(5));
+		Function f = new Function("2*(X+1)");
+		System.out.println(toPostfix("4*2^(x-2)"));
 	}
 	
 	
