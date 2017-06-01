@@ -6,14 +6,14 @@ import java.util.Stack;
 public class Function {
 
 	private String function;
-	private ArrayList<Object> functarr;
+	public ArrayList<Object> postfix;
 	private HashMap<String, String> valid;
 	private static String[][] precedence = {{"^", "*", "-"}, {"^", "/", "+"}, {"^","%","+"}};
 	private Color color;
 	
 	public Function(String f, Color c){
 		color = c;
-		
+		postfix = new ArrayList<>();
 		valid = new HashMap<>();
 		valid.put("+", "+");
 		valid.put("-", "-");
@@ -30,7 +30,7 @@ public class Function {
 		}
 		
 		if(validFunction(f)){
-			function = toPostfix(f);
+			toPostfix(f);
 		} else {
 			System.out.println("Invalid function: " + f);
 		}
@@ -58,29 +58,28 @@ public class Function {
 
 	public double evaluate(double x){
 		Stack stack = new Stack();
-		Double answer = 0.0;
-		for(int i = 0; i < function.length(); i++){
-			if(function.charAt(i) == 'x' || function.charAt(i) == 'X'){
-				stack.push(Double.toString(x));
-			}else if(!isOperator(function.charAt(i))){
-				stack.push(function.substring(i, i+1));
-			}else if(function.charAt(i) == '*'){
-				stack.push(Double.toString(Double.parseDouble((String) stack.pop())*Double.parseDouble((String) stack.pop())));
-			}else if(function.charAt(i) == '%'){
-				double temp = Double.parseDouble((String) stack.pop());
-				stack.push(Double.toString(Double.parseDouble((String) stack.pop())%temp));
-			}else if(function.charAt(i) == '/'){
-				stack.push(Double.toString(1/Double.parseDouble((String) stack.pop())*Double.parseDouble((String) stack.pop())));
-			}else if(function.charAt(i) == '+'){
-				stack.push(Double.toString(Double.parseDouble((String) stack.pop())+Double.parseDouble((String) stack.pop())));
-			}else if(function.charAt(i) == '-'){
-				stack.push(Double.toString(-Double.parseDouble((String) stack.pop())+Double.parseDouble((String) stack.pop())));
-			}else if(function.charAt(i) == '^'){
-				double temp = Double.parseDouble((String) stack.pop());
-				stack.push(Double.toString(Math.pow(Double.parseDouble((String)stack.pop()),temp)));
+		for(int i = 0; i < postfix.size(); i++){
+			if(postfix.get(i) instanceof Number){
+				stack.push(postfix.get(i));
+			}else if(((Character) postfix.get(i)).toString() == "x" || ((Character) postfix.get(i)).toString() == "X"){
+				stack.push(new Number(Double.toString(x)));
+			}else if(((Character) postfix.get(i)).toString() == "*"){
+				stack.push(Double.toString(Double.parseDouble((String) ((Number) stack.pop()).getStr())*Double.parseDouble((String) ((Number) stack.pop()).getStr())));
+			}else if(((Character) postfix.get(i)).toString() == "%"){
+				double temp = Double.parseDouble((String) ((Number) stack.pop()).getStr());
+				stack.push(Double.toString(Double.parseDouble((String) ((Number) stack.pop()).getStr())%temp));
+			}else if(((Character) postfix.get(i)).toString() == "/"){
+				stack.push(Double.toString(1/Double.parseDouble((String) ((Number) stack.pop()).getStr())*Double.parseDouble((String) ((Number) stack.pop()).getStr())));
+			}else if(((Character) postfix.get(i)).toString() == "+"){
+				stack.push(Double.toString(Double.parseDouble((String) ((Number) stack.pop()).getStr())+Double.parseDouble((String) ((Number) stack.pop()).getStr())));
+			}else if(((Character) postfix.get(i)).toString() == "-"){
+				stack.push(Double.toString(-Double.parseDouble((String) ((Number) stack.pop()).getStr())+Double.parseDouble((String) ((Number) stack.pop()).getStr())));
+			}else if(((Character) postfix.get(i)).toString() == "^"){
+				double temp = Double.parseDouble((String) ((Number) stack.pop()).getStr());
+				stack.push(Double.toString(Math.pow(Double.parseDouble((String)((Number) stack.pop()).getStr()),temp)));
 			}
 		}
-		return Double.parseDouble((String) stack.pop());
+		return Double.parseDouble((String) ((Number) stack.pop()).getStr());
 	}
 	
 	public String getFunction(){ return function; }
@@ -114,10 +113,9 @@ public class Function {
 	    }
 	}
 
-	public static String toPostfix(String infixString) {
-        String postfixString = " ";
+	public void toPostfix(String infixString) {
         Stack stack = new Stack();
-
+        int currIndex = 0;
         for (int index = 0; index < infixString.length(); index++) {
             char chValue = infixString.charAt(index);
             if (chValue == '(') {
@@ -125,24 +123,34 @@ public class Function {
             } else if (chValue == ')') {
                 Character oper = (Character) stack.peek();
                 while (!(oper.equals('(')) && !(stack.isEmpty())) {
-                    postfixString += oper.charValue();
+                    postfix.add(oper.charValue());
                     stack.pop();
                     oper = (Character) stack.peek();
                 }
                 stack.pop();
             } else if (chValue == '+' || chValue == '-') {
                 //Stack is empty
-                if (stack.isEmpty()) {
-                    stack.push(chValue);
-                    //current Stack is not empty
-                } else {
-                    Character oper = (Character) stack.peek();
-                    while (!(stack.isEmpty() || oper.equals(new Character('(')) || oper.equals(new Character(')')))) {
-                        stack.pop();
-                        postfixString += oper.charValue();
-                    }
-                    stack.push(chValue);
-                }
+            	if(currIndex != 0 && postfix.get(currIndex-1) instanceof Character && chValue == '-'){
+            		postfix.add(new Number("-"));
+            		currIndex++;
+            	}else if(currIndex == 0){
+            		postfix.add(new Number("-"));
+            		currIndex++;
+            	}
+            	else{
+            		if (stack.isEmpty()) {
+            			stack.push(chValue);
+            			//current Stack is not empty
+            		} else {
+            			Character oper = (Character) stack.peek();
+            			while (!(stack.isEmpty() || oper.equals(new Character('(')) || oper.equals(new Character(')')))) {
+            				stack.pop();
+            				postfix.add(oper.charValue());
+            				currIndex++;
+            			}
+            			stack.push(chValue);
+            		}
+            	}
             } else if (chValue == '*' || chValue == '/' || chValue=='%') {
                 if (stack.isEmpty()) {
                     stack.push(chValue);
@@ -150,7 +158,8 @@ public class Function {
                     Character oper = (Character) stack.peek();
                     while (!oper.equals(new Character('+')) && !oper.equals(new Character('-')) && !stack.isEmpty()) {
                         stack.pop();
-                        postfixString += oper.charValue();
+                        postfix.add(oper.charValue());
+                        currIndex++;
                     }
                     stack.push(chValue);
                 }
@@ -165,29 +174,49 @@ public class Function {
                     		!oper.equals(new Character('%')) &&
                     		!stack.isEmpty()) {
                         stack.pop();
-                        postfixString += oper.charValue();
+                        postfix.add(oper.charValue());
+                        currIndex++;
                     }
                     stack.push(chValue);
                 }
-            } else {
-            	
-                postfixString += chValue;
+            }else if(chValue == 'x' || chValue == 'X'){
+            	postfix.add(chValue);
+            	currIndex++;
+            }else{
+            	if(currIndex != 0 && postfix.get(currIndex-1) instanceof Number){
+            		Number num = (Number) postfix.get(currIndex-1);
+            		num.setStr(num.getStr()+chValue);
+            	}else{
+            		postfix.add(new Number(""+chValue));
+            		currIndex++;
+            	}
             }
         }
         while (!stack.isEmpty()) {
             Character oper = (Character) stack.peek();
             if (!oper.equals(new Character('('))) {
                 stack.pop();
-                postfixString += oper.charValue();
+                postfix.add(oper.charValue());
             }
         }
-        return postfixString;
     }
 	
 	public Color getColor(){ return color; }
+	
+	public static void main(String[] args){
+		Function f = new Function("-3*x^(-3)", Color.BLACK);
+		System.out.print(f.postfix);
+		System.out.print(f.evaluate(0));
+	}
+	
+	
 	private class Number{
 		private int val;
 		private String str;
+		
+		public Number(String string){
+			str= string;
+		}
 		
 		public Number(int value, String string){
 			str= string;
@@ -209,6 +238,8 @@ public class Function {
 		public void setStr(String str) {
 			this.str = str;
 		}
-		
+		public String toString(){
+			return str;
+		}
 	}
 }
