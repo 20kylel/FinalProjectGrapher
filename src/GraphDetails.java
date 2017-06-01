@@ -45,6 +45,7 @@ public class GraphDetails implements ActionListener{
 	
 	public GraphDetails(){
 		graphable = false;
+		this.prepareJFrame();
 	}
 	
 	public GraphDetails(GraphDisplay2 d){

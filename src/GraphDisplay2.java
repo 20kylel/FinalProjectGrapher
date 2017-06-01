@@ -59,19 +59,19 @@ public class GraphDisplay2 extends JComponent {
 		g2.fillRect(0, getHeight()/2-1, getWidth(), 3);
 		g2.fillRect(getWidth()/2-1, 0, 3, getHeight());
 		
-		g2.setColor(Color.BLACK);
-
 		int xscale = (int) (getWidth()/(gd.getxMax()-gd.getxMin()));
 		int yscale = (int) (getHeight()/(gd.getyMax()-gd.getyMin()));
+		
 		ArrayList<Function> functions = graph.getFunctions();
 		for(int i=0; i<functions.size(); i++){
 			Function f = functions.get(i);
 			g2.setColor(f.getColor());
-			for(double j=gd.getxMin(); j<gd.getxMax(); j+=gd.getxInc()){
+			for(double j=gd.getxMin(); j<gd.getxMax(); j+=gd.getInputInc()){
 				double y1 = f.evaluate(j);
-				double y2 = f.evaluate(j+gd.getxInc());
+				double y2 = f.evaluate(j+gd.getInputInc());
 				if(y1>gd.getyMin() && y1<gd.getyMax() || y2>gd.getyMin() && y2<gd.getyMax()){
-					g2.drawLine((int) (j*xscale+getWidth()/2), (int) (getHeight()-y1*yscale-getHeight()/2), (int) ((j+gd.getxInc())*xscale+getWidth()/2), (int) (getHeight()-y2*yscale-getHeight()/2));
+					g2.drawLine((int) (j*xscale+getWidth()/2), (int) (getHeight()-y1*yscale-getHeight()/2), 
+							(int) ((j+gd.getInputInc())*xscale+getWidth()/2), (int) (getHeight()-y2*yscale-getHeight()/2));
 				}
 			}
 		}

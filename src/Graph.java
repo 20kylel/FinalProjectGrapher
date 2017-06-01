@@ -58,10 +58,6 @@ public class Graph extends KeyAdapter {
 	
 	//For GraphDisplay2
 	
-	public double calculateValue(Function f, int x){
-		return f.evaluate(x);
-	}
-	
 	public void keyPressed(KeyEvent e){
 		
 	}
