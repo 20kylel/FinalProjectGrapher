@@ -17,7 +17,6 @@ public class GraphDetails implements ActionListener{
 	private double yInc;
 	private double xInc;
 	private double inputInc;
-	private double dotSize;
 	
 	
 	private JLabel xMaxL;
@@ -27,7 +26,6 @@ public class GraphDetails implements ActionListener{
     private JLabel yIncL;
     private JLabel xIncL ;
     private JLabel inputIncL;
-    private JLabel dotSizeL;
     
     private JTextField xMaxT;
 	private JTextField xMinT;
@@ -36,30 +34,26 @@ public class GraphDetails implements ActionListener{
     private JTextField yIncT;
     private JTextField xIncT ;
     private JTextField inputIncT;
-    private JTextField dotSizeT;
     
 	
 	private double originX;
 	private double originY;
 	
 	
-	public GraphDetails(){
+	public GraphDetails(GraphDisplay2 display){
+		this.display = display;
+		
 		graphable = false;
 		this.prepareJFrame();
-	}
-	
-	public GraphDetails(GraphDisplay2 d){
-		display = d;
-		graphable = false;
-		this.prepareJFrame();
-	}
-	
-	public double getDotSize() {
-		return dotSize;
-	}
-
-	public void setDotSize(double dotSize) {
-		this.dotSize = dotSize;
+		
+		xMax = 10;
+		xMin = -10;
+		yMax = 10;
+		yMin = -10;
+		xInc = 1;
+		yInc = 1;
+		
+		inputInc = 0.1;
 	}
 
 	public void prepareJFrame(){
@@ -75,16 +69,13 @@ public class GraphDetails implements ActionListener{
 	    yMinT = new JTextField("",JLabel.RIGHT );
 	    yIncT = new JTextField("", JLabel.RIGHT);
 	    xIncT = new JTextField("", JLabel.RIGHT);
-	    inputIncT = new JTextField("", JLabel.RIGHT);	    
-	    dotSizeT = new JTextField("", JLabel.RIGHT);
+	    
 	    xMaxT.setHorizontalAlignment(JTextField.RIGHT);
 	    xMinT.setHorizontalAlignment(JTextField.RIGHT);
 	    yMaxT.setHorizontalAlignment(JTextField.RIGHT);
 	    yMinT.setHorizontalAlignment(JTextField.RIGHT);
 	    yIncT.setHorizontalAlignment(JTextField.RIGHT);
 	    xIncT.setHorizontalAlignment(JTextField.RIGHT);
-	    inputIncT.setHorizontalAlignment(JTextField.RIGHT);
-	    dotSizeT = new JTextField("", JLabel.RIGHT);
 	    
 	    xMaxL = new JLabel("X Maximum:", JLabel.RIGHT);
 	    xMinL = new JLabel("X Minimum:", JLabel.RIGHT);
@@ -92,8 +83,6 @@ public class GraphDetails implements ActionListener{
 	    yMinL = new JLabel("Y Minimum:",JLabel.RIGHT );
 	    yIncL = new JLabel("Y Increment:", JLabel.RIGHT);
 	    xIncL = new JLabel("X Increment:", JLabel.RIGHT);
-	    inputIncL = new JLabel("Input Increment:", JLabel.RIGHT);	
-	    dotSizeL = new JLabel("Dot Size", JLabel.RIGHT);
 	    
 	    frame.getContentPane().add(xMaxL);
 	    frame.getContentPane().add(xMaxT);
@@ -107,10 +96,6 @@ public class GraphDetails implements ActionListener{
 	    frame.getContentPane().add(yIncT);
 	    frame.getContentPane().add(xIncL);
 	    frame.getContentPane().add(xIncT);
-	    frame.getContentPane().add(inputIncL);
-	    frame.getContentPane().add(inputIncT);
-	    frame.getContentPane().add(dotSizeL);
-	    frame.getContentPane().add(dotSizeT);
 	    
 	    JButton applyButton = new JButton("Apply");
 	    applyButton.addActionListener(this);
@@ -201,8 +186,6 @@ public class GraphDetails implements ActionListener{
 				
 			}else if(Double.parseDouble(xIncT.getText()) > Double.parseDouble(xMaxT.getText())-Double.parseDouble(xMinT.getText())){
 					
-			}else if(Double.parseDouble(inputIncT.getText()) > Double.parseDouble(xMaxT.getText())-Double.parseDouble(xMinT.getText())){
-				
 			}
 			xMax = Double.parseDouble(xMaxT.getText());
 			xMin = Double.parseDouble(xMinT.getText());
@@ -210,8 +193,6 @@ public class GraphDetails implements ActionListener{
 			yMin = Double.parseDouble(yMinT.getText());
 			xInc = Double.parseDouble(xIncT.getText());
 			yInc = Double.parseDouble(yIncT.getText());
-			dotSize = Integer.parseInt(yIncT.getText());
-			inputInc = Double.parseDouble(inputIncT.getText());
 			graphable = true;
 		} catch(NumberFormatException exception) {
 			graphable = false;
@@ -219,5 +200,6 @@ public class GraphDetails implements ActionListener{
 			JOptionPane.showMessageDialog(numberFormat, "Please Input Numbers", "NumberFormatException", JOptionPane.ERROR_MESSAGE);
 		}
 		
+		display.repaint();
 	}
 }

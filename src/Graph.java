@@ -55,9 +55,7 @@ public class Graph extends KeyAdapter {
 		}
 	}
 	*/
-	
-	//For GraphDisplay2
-	
+		
 	public void keyPressed(KeyEvent e){
 		
 	}

@@ -52,7 +52,7 @@ public class GraphDisplay2 extends JComponent {
 	protected void paintComponent(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D)g;
-		g2.setColor(color);
+		g2.setColor(Color.WHITE);
 		g2.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
 		
 		g2.setColor(Color.GRAY);
@@ -62,6 +62,16 @@ public class GraphDisplay2 extends JComponent {
 		int xscale = (int) (getWidth()/(gd.getxMax()-gd.getxMin()));
 		int yscale = (int) (getHeight()/(gd.getyMax()-gd.getyMin()));
 		
+		//Adds tick marks
+		g2.setColor(Color.LIGHT_GRAY);
+		for(int i=0; i<getWidth(); i+=xscale*gd.getxInc()){
+			g2.drawLine(i, 0, i, getHeight());
+		}
+		for(int i=0; i<getHeight(); i+=yscale*gd.getyInc()){
+			g2.drawLine(0, i, getWidth(), i);
+		}
+		
+		//Graphs the functions
 		ArrayList<Function> functions = graph.getFunctions();
 		for(int i=0; i<functions.size(); i++){
 			Function f = functions.get(i);
