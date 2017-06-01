@@ -8,9 +8,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-/**
- * this works
- */
 public class GraphDisplay extends JComponent{
 	
 	private BufferedImage image;
@@ -33,17 +30,12 @@ public class GraphDisplay extends JComponent{
 	public void setImage(BufferedImage image) {
 		this.image = image;
 	}
-
-	public static void main(String[] args){
-		GraphDisplay gd = new GraphDisplay(0,0,1000, 1000);
-	}
 	
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
-		g2.drawImage(image, 0,0,null );
-		
+		g2.drawImage(image, 0, 0, null);
 	}
 	
 	public Dimension getPreferredSize() {

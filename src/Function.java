@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -6,7 +7,11 @@ public class Function {
 	private String function;
 	private HashMap<String, String> valid;
 	private static String[][] precedence = {{"^", "*", "-"}, {"^", "/", "+"}, {"^","%","+"}};
-	public Function(String f){
+	private Color color;
+	
+	public Function(String f, Color c){
+		color = c;
+		
 		valid = new HashMap<>();
 		valid.put("+", "+");
 		valid.put("-", "-");
@@ -31,20 +36,30 @@ public class Function {
 
 	private boolean validFunction(String f){
 		for(int i=0; i<f.length(); i++){
-			String s = f.substring(i, i+1);
-			if(valid.get(s)==null){
+			if(valid.get(f.substring(i, i+1))==null){
 				return false;
 			}
 		}
-		return true;
+		int parens = 0;
+		for(int i=0; i<f.length(); i++){
+			if(parens<0){
+				return false;
+			}
+			if(f.substring(i, i+1).equals("(")){
+				parens++;
+			} else if(f.substring(i, i+1).equals(")")){
+				parens--;
+			}
+		}
+		return parens==0;
 	}
 
-	public double evaluate(int x){
+	public double evaluate(double x){
 		Stack stack = new Stack();
 		Double answer = 0.0;
 		for(int i = 0; i < function.length(); i++){
 			if(function.charAt(i) == 'x' || function.charAt(i) == 'X'){
-				stack.push(Integer.toString(x));
+				stack.push(Double.toString(x));
 			}else if(!isOperator(function.charAt(i))){
 				stack.push(function.substring(i, i+1));
 			}else if(function.charAt(i) == '*'){
@@ -167,11 +182,6 @@ public class Function {
         return postfixString;
     }
 	
-	public static void main(String[] args){
-		Function f = new Function("2*(X+1)");
-		System.out.println(toPostfix("4*2^(x-2)"));
-	}
-	
-	
+	public Color getColor(){ return color; }
 	
 }
