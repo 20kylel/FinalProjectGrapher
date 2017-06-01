@@ -1,10 +1,12 @@
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
 public class Function {
 
 	private String function;
+	private ArrayList<Object> functarr;
 	private HashMap<String, String> valid;
 	private static String[][] precedence = {{"^", "*", "-"}, {"^", "/", "+"}, {"^","%","+"}};
 	private Color color;
@@ -116,7 +118,7 @@ public class Function {
         String postfixString = " ";
         Stack stack = new Stack();
 
-        for (int index = 0; index < infixString.length(); ++index) {
+        for (int index = 0; index < infixString.length(); index++) {
             char chValue = infixString.charAt(index);
             if (chValue == '(') {
                 stack.push('(');
@@ -168,7 +170,7 @@ public class Function {
                     stack.push(chValue);
                 }
             } else {
-            
+            	
                 postfixString += chValue;
             }
         }
@@ -183,5 +185,30 @@ public class Function {
     }
 	
 	public Color getColor(){ return color; }
-	
+	private class Number{
+		private int val;
+		private String str;
+		
+		public Number(int value, String string){
+			str= string;
+			val = value;
+		}
+
+		public int getVal() {
+			return val;
+		}
+
+		public void setVal(int val) {
+			this.val = val;
+		}
+
+		public String getStr() {
+			return str;
+		}
+
+		public void setStr(String str) {
+			this.str = str;
+		}
+		
+	}
 }
