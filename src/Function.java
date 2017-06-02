@@ -128,7 +128,7 @@ public class Function {
             if (chValue == '(') {
                 stack.push('(');
             }else if(!isOperator(chValue) && chValue != 'x' && chValue != 'X'){
-            	if(postfix.size() != 0 && !isOperator(infixString.charAt(index-1)) && Character.toLowerCase(infixString.charAt(index-1)) != 'x'){
+            	if(postfix.size() != 0 && (!isOperator(infixString.charAt(index-1)) || (infixString.charAt(index-1) == '-')) && Character.toLowerCase(infixString.charAt(index-1)) != 'x'){
             		Number num = (Number) postfix.get(postfix.size()-1);
             		num.setStr(num.getStr()+chValue);
             	}else{
@@ -221,7 +221,7 @@ public class Function {
 	public Color getColor(){ return color; }
 	
 	public static void main(String[] args){
-		Function f = new Function("x^(1/2)", Color.BLACK);
+		Function f = new Function("x^-2", Color.BLACK);
 		System.out.println(f.postfix);
 		System.out.println(f.evaluate(7));
 	}
