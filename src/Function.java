@@ -68,22 +68,22 @@ public class Function {
 				Double second = Double.parseDouble((String) stack.pop());
 				if(((Character) postfix.get(i)).charValue() == '*'){
 					stack.push(Double.toString(first*second));
-					System.out.println("*");
+					
 				}else if(((Character) postfix.get(i)).charValue() == '%'){
 					stack.push(Double.toString(second%first));		
-					System.out.println("%");
+					
 				}else if(((Character) postfix.get(i)).charValue() == '+'){
 					stack.push(Double.toString(first + second));
-					System.out.println("+");
+					
 				}else if(((Character) postfix.get(i)).charValue() == '-'){
 					stack.push(Double.toString(second - first));
-					System.out.println("-");
+					
 				}else if(((Character) postfix.get(i)).charValue() == '^'){
 					stack.push(Double.toString(Math.pow(second, first)));
-					System.out.println("^");
+					
 				}else if(((Character) postfix.get(i)).charValue() == '/'){
 					stack.push(Double.toString(second/first));
-					System.out.println("/");
+					
 				}
 			}
 		}
