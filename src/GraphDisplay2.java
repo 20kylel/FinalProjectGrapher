@@ -20,9 +20,6 @@ public class GraphDisplay2 extends JComponent {
 	private Graph graph;
 	private GraphDetails gd;
 
-	private int xshift;
-	private int yshift;
-
 	public GraphDisplay2(Graph graph, GraphDetails gd)
 	{	
 		this.graph = graph;
@@ -41,9 +38,6 @@ public class GraphDisplay2 extends JComponent {
 		frame.setVisible(true);
 
 		color = Color.WHITE;
-
-		xshift = 0;
-		yshift = 0;
 	}
 
 	public void setTitle(String title)
@@ -64,25 +58,25 @@ public class GraphDisplay2 extends JComponent {
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setColor(Color.WHITE);
 		g2.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
-
-		g2.setColor(Color.GRAY);
-		double xAxis = getWidth()/2+xshift*xscale*gd.getxInc();
-		double yAxis = getHeight()/2+yshift*yscale*gd.getyInc();
-		g2.fillRect(0, (int) (yAxis-1), getWidth(), 3);
-		g2.fillRect((int) (xAxis-1), 0, 3, getHeight());
-
+		
 		g2.setColor(Color.LIGHT_GRAY);
-		for(double i=0; i<getWidth()-xAxis; i+=xscale*gd.getxInc()){
-			g2.drawLine((int) (xAxis+i), 0, (int) (xAxis+i), getHeight());
+		g2.setStroke(new BasicStroke(1));
+		for(double i=0; i<getWidth()/2; i+=xscale*gd.getxInc()){
+			g2.drawLine((int) (getWidth()/2+i), 0, (int) (getWidth()/2+i), getHeight());
+			g2.drawLine((int) (getWidth()/2-i), 0, (int) (getWidth()/2-i), getHeight());
 		}
-		for(double i=0; i<xAxis; i+=xscale*gd.getxInc()){
-			g2.drawLine((int) (xAxis-i), 0, (int) (xAxis-i), getHeight());
+		for(double i=0; i<getHeight()/2; i+=yscale*gd.getyInc()){
+			g2.drawLine(0, (int) (getHeight()/2+i), getWidth(), (int) (getHeight()/2+i));
+			g2.drawLine(0, (int) (getHeight()/2-i), getWidth(), (int) (getHeight()/2-i));
 		}
-		for(double i=0; i<gd.getyMax()*yscale; i+=yscale*gd.getyInc()){
-			g2.drawLine(0, (int) (yAxis+i), getWidth(), (int) (yAxis+i));
+
+		g2.setColor(Color.BLACK);
+		g2.setStroke(new BasicStroke(4));
+		if(gd.getxMax()>=0 && gd.getxMin()<=0){
+			g2.drawLine((int) (-gd.getxMin()*xscale), 0, (int) (-gd.getxMin()*xscale), getHeight());
 		}
-		for(double i=0; i<yAxis; i+=yscale*gd.getyInc()){			
-			g2.drawLine(0, (int) (yAxis-i), getWidth(), (int) (yAxis-i));
+		if(gd.getyMax()>=0 && gd.getyMin()<=0){
+			g2.drawLine(0, (int) (-gd.getyMin()*yscale), getWidth(), (int) (-gd.getyMin()*yscale));
 		}
 
 		ArrayList<Function> functions = graph.getFunctions();
@@ -94,10 +88,11 @@ public class GraphDisplay2 extends JComponent {
 				double y1 = f.evaluate(j);
 				double y2 = f.evaluate(j+gd.getInputInc());
 				if(y1>gd.getyMin() && y1<gd.getyMax() || y2>gd.getyMin() && y2<gd.getyMax()){
-					g2.drawLine((int) (j*xscale+getWidth()/2)+xshift*xscale, 
-							(int) (getHeight()-y1*yscale-getHeight()/2)+yshift*yscale, 
-							(int) ((j+gd.getInputInc())*xscale+getWidth()/2)+xshift*xscale, 
-							(int) (getHeight()-y2*yscale-getHeight()/2)+yshift*yscale);
+					//FIX THIS CODE
+					g2.drawLine((int) (j*xscale-gd.getxMin()), 
+							(int) (getHeight()-y1*yscale-gd.getyMin()), 
+							(int) ((j+gd.getInputInc())*xscale-gd.getxMin()), 
+							(int) (getHeight()-y2*yscale-gd.getyMin()));
 				}
 			}
 		}
@@ -108,11 +103,5 @@ public class GraphDisplay2 extends JComponent {
 	{
 		frame.addKeyListener(listener);
 	}
-
-	public void shiftX(int dx){ xshift += dx; }
-	public void shiftY(int dy){ yshift += dy; }
-
-	public int getXShift(){ return xshift; }
-	public int getYShift(){ return yshift; }
 
 }

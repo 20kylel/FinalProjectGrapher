@@ -61,18 +61,25 @@ public class Graph extends KeyAdapter {
 	*/
 	
 	public void keyPressed(KeyEvent e){
+		double xshift = 0, yshift = 0;
 		if(e.getKeyCode()==KeyEvent.VK_DOWN){
-			display.shiftY(1);
+			yshift = -1;
 		} else if(e.getKeyCode()==KeyEvent.VK_UP){
-			display.shiftY(-1);
+			yshift = 1;
 		} else if(e.getKeyCode()==KeyEvent.VK_LEFT){
-			display.shiftX(-1);
+			xshift = 1;
 		} else if(e.getKeyCode()==KeyEvent.VK_RIGHT){
-			display.shiftX(1);
+			xshift = -1;
 		} else if(e.getKeyCode()==KeyEvent.VK_0){
-			display.shiftX(-display.getXShift());
-			display.shiftY(-display.getYShift());
+			details.setxMax(10);
+			details.setxMin(-10);
+			details.setyMax(10);
+			details.setyMin(-10);
 		}
+		details.setxMax(details.getxMax()+xshift);
+		details.setxMin(details.getxMin()+xshift);
+		details.setyMax(details.getyMax()+yshift);
+		details.setyMin(details.getyMin()+yshift);
 		display.repaint();
 	}
 	
