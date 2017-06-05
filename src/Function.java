@@ -129,8 +129,18 @@ public class Function {
                 stack.push('(');
             }else if(!isOperator(chValue) && chValue != 'x' && chValue != 'X'){
             	if(postfix.size() != 0 && (!isOperator(infixString.charAt(index-1)) || (infixString.charAt(index-1) == '-')) && Character.toLowerCase(infixString.charAt(index-1)) != 'x'){
-            		Number num = (Number) postfix.get(postfix.size()-1);
-            		num.setStr(num.getStr()+chValue);
+            		if(infixString.charAt(index-1) == '-'){
+            			if(postfix.get(postfix.size()-1)instanceof Number && ((Number) postfix.get(postfix.size()-1)).getStr() == "-"  ){
+							Number num = (Number) postfix.get(postfix.size() - 1);
+							num.setStr(num.getStr() + chValue);
+						}else{
+            				postfix.add(new Number(""+chValue));
+						}
+					}else
+					{
+						Number num = (Number) postfix.get(postfix.size() - 1);
+						num.setStr(num.getStr() + chValue);
+					}
             	}else{
             		postfix.add(new Number(""+chValue));
             		
