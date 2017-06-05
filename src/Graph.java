@@ -10,14 +10,12 @@ public class Graph extends KeyAdapter {
 	private ArrayList<Function> functions;
 	private GraphDetails details;
 	private static GraphDisplay2 display;
-	private double scale;
 
 	public Graph(GraphDetails details, double scale)
 	{
 		functions = new ArrayList<>();
 		this.details = details;
 		display = new GraphDisplay2(this, details);
-		this.scale = scale;
 		
 		display.addKeyListener(this);
 	}
@@ -41,24 +39,6 @@ public class Graph extends KeyAdapter {
 		}
 		return f;
 	}
-
-	/*
-	public void setPoint(double x, double y)
-	{
-		BufferedImage i = display.getImage();
-		i.setRGB((int) (x + details.getOriginX()), (int) (y + details.getOriginY()), 100);
-		display.setImage(i);
-	}
-
-	public void plotGraph() {
-		for (Function f : functions) {
-			double originX = details.getOriginX();
-			for (double x = (details.getxMin() - originX) / scale; x < details.getxMax() / scale; x++) {
-				setPoint(x, ((Function) f).evaluate((int) ((int) x / scale)));
-			}
-		}
-	}
-	*/
 	
 	public void keyPressed(KeyEvent e){
 		double xshift = 0, yshift = 0;
@@ -131,6 +111,5 @@ public class Graph extends KeyAdapter {
 		}
 	}
 	
-
 }
 
