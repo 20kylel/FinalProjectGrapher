@@ -89,10 +89,10 @@ public class GraphDisplay2 extends JComponent {
 				double y2 = f.evaluate(j+gd.getInputInc());
 				if(y1>gd.getyMin() && y1<gd.getyMax() || y2>gd.getyMin() && y2<gd.getyMax()){
 					//FIX THIS CODE
-					g2.drawLine((int) (j*xscale-gd.getxMin()), 
-							(int) (getHeight()-y1*yscale-gd.getyMin()), 
-							(int) ((j+gd.getInputInc())*xscale-gd.getxMin()), 
-							(int) (getHeight()-y2*yscale-gd.getyMin()));
+					g2.drawLine((int) (j*xscale-gd.getxMin()*xscale), 
+							(int) (-y1*yscale-gd.getyMin()*yscale), 
+							(int) ((j+gd.getInputInc())*xscale-gd.getxMin()*xscale), 
+							(int) (-y2*yscale-gd.getyMin()*yscale));
 				}
 			}
 		}
