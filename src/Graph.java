@@ -63,9 +63,9 @@ public class Graph extends KeyAdapter {
 	public void keyPressed(KeyEvent e){
 		double xshift = 0, yshift = 0;
 		if(e.getKeyCode()==KeyEvent.VK_DOWN){
-			yshift = -1;
-		} else if(e.getKeyCode()==KeyEvent.VK_UP){
 			yshift = 1;
+		} else if(e.getKeyCode()==KeyEvent.VK_UP){
+			yshift = -1;
 		} else if(e.getKeyCode()==KeyEvent.VK_LEFT){
 			xshift = 1;
 		} else if(e.getKeyCode()==KeyEvent.VK_RIGHT){

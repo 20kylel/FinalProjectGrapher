@@ -76,7 +76,7 @@ public class GraphDisplay2 extends JComponent {
 			g2.drawLine((int) (-gd.getxMin()*xscale), 0, (int) (-gd.getxMin()*xscale), getHeight());
 		}
 		if(gd.getyMax()>=0 && gd.getyMin()<=0){
-			g2.drawLine(0, (int) (-gd.getyMin()*yscale), getWidth(), (int) (-gd.getyMin()*yscale));
+			g2.drawLine(0, (int) (getHeight()+gd.getyMin()*yscale), getWidth(), (int) (getHeight()+gd.getyMin()*yscale));
 		}
 
 		ArrayList<Function> functions = graph.getFunctions();
@@ -88,11 +88,10 @@ public class GraphDisplay2 extends JComponent {
 				double y1 = f.evaluate(j);
 				double y2 = f.evaluate(j+gd.getInputInc());
 				if(y1>gd.getyMin() && y1<gd.getyMax() || y2>gd.getyMin() && y2<gd.getyMax()){
-					//FIX THIS CODE
 					g2.drawLine((int) (j*xscale-gd.getxMin()*xscale), 
-							(int) (-y1*yscale-gd.getyMin()*yscale), 
+							(int) (getHeight()-y1*yscale+gd.getyMin()*yscale), 
 							(int) ((j+gd.getInputInc())*xscale-gd.getxMin()*xscale), 
-							(int) (-y2*yscale-gd.getyMin()*yscale));
+							(int) (getHeight()-y2*yscale+gd.getyMin()*yscale));
 				}
 			}
 		}
